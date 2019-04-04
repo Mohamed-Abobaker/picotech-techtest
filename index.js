@@ -10,30 +10,32 @@ const createFrequencyFile = path => {
     if (filetype === ".csv") csvFiles.push(file);
   });
 
-  const array2 = [["Filename", "Frequency"]];
+  let compiledDataArray = [["Filename", "Frequency"]];
 
   csvFiles.forEach(file => {
-    const tempArray = [];
+    const rawDataArray = [];
     csv
       .fromPath(`${path}/${file}`)
       .on("data", function(data) {
-        tempArray.push(data);
+        rawDataArray.push(data);
       })
       .on("end", function() {
-        let arr = tempArray.slice(2).sort((a, b) => 1 / b[0] - 1 / a[0]);
-        arr = arr.slice(0, 1);
-        arr[0][1] = 1 / arr[0][0];
-        arr[0][0] = `${file}`;
-        array2.push(arr[0]);
+        let sortedDataArray = rawDataArray
+          .slice(2)
+          .sort((a, b) => 1 / b[0] - 1 / a[0]);
+        sortedDataArray = sortedDataArray.slice(0, 1);
+        sortedDataArray[0][1] = 1 / sortedDataArray[0][0];
+        sortedDataArray[0][0] = `${file}`;
+        compiledDataArray.push(sortedDataArray[0]);
 
-        if (array2.length === csvFiles.length + 1) {
-          array3 = array2.sort((a, b) => a[1] - b[1]);
+        if (compiledDataArray.length === csvFiles.length + 1) {
+          compiledDataArray = compiledDataArray.sort((a, b) => a[1] - b[1]);
           csv
             .writeToStream(
               fs.createWriteStream("waveFrequencies.csv", {
                 flags: "a"
               }),
-              array3,
+              compiledDataArray,
               {
                 headers: false
               }

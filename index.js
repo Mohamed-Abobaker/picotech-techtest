@@ -1,8 +1,7 @@
 const fs = require("fs");
 const csv = require("fast-csv");
-// const test = require('../Downloads/Picotech_interviewTest')
 
-//the parameter 'path' here should be the path to the folder containing csv wave files. e.g "./Waves"
+//the parameter 'path' here should be the path to the folder containing csv wave files. e.g "('../Downloads/Picotech_interviewTest')"
 const createFrequencyFile = path => {
   const csvFiles = [];
 
@@ -47,4 +46,4 @@ const createFrequencyFile = path => {
   });
 };
 
-createFrequencyFile("../Downloads/Picotech_interviewTest");
+createFrequencyFile(/* insert path here then run file in terminal by typing 'node index.js'*/);

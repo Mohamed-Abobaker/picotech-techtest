@@ -1,0 +1,17 @@
+{
+  "name": "picotech-techtest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "fast-csv": "^2.4.1",
+    "mocha": "^6.0.2"
+  }
+}

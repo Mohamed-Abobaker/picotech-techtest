@@ -53,4 +53,4 @@ const createFrequencyFile = path => {
   });
 };
 
-createFrequencyFile("../Downloads/Picotech_interviewTest");
+createFrequencyFile(/* insert path here then run file in terminal by typing 'node index.js'*/);

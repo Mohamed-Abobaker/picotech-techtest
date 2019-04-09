@@ -1,5 +1,6 @@
 const fs = require("fs");
 const csv = require("fast-csv");
+const { getWave, waveTime } = require("./utils");
 
 //the parameter 'path' here should be the path to the folder containing csv wave files. e.g "('../Downloads/Picotech_interviewTest')"
 const createFrequencyFile = path => {
@@ -7,6 +8,7 @@ const createFrequencyFile = path => {
 
   fs.readdirSync(path).forEach(file => {
     let filetype = file.substring(file.length - 4);
+
     if (filetype === ".csv") csvFiles.push(file);
   });
 
@@ -20,13 +22,16 @@ const createFrequencyFile = path => {
         rawDataArray.push(data);
       })
       .on("end", function() {
-        let sortedDataArray = rawDataArray
-          .slice(2)
-          .sort((a, b) => 1 / b[0] - 1 / a[0]);
-        sortedDataArray = sortedDataArray.slice(0, 1);
-        sortedDataArray[0][1] = 1 / sortedDataArray[0][0];
-        sortedDataArray[0][0] = `${file}`;
-        compiledDataArray.push(sortedDataArray[0]);
+        let dataArray = rawDataArray.slice(2);
+        const NumDataArray = dataArray.map(row => {
+          row[0] = Number(row[0]);
+          row[1] = Number(row[1]);
+          return row;
+        });
+
+        const topWave = getWave(NumDataArray, Number(rawDataArray[1][1]), file);
+        // console.log("topWave", topWave);
+        compiledDataArray.push(topWave);
 
         if (compiledDataArray.length === csvFiles.length + 1) {
           compiledDataArray = compiledDataArray.sort((a, b) => a[1] - b[1]);
